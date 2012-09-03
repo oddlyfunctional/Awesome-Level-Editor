@@ -1,15 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset=utf-8>
-		<script src="lib/yui-min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+	</head>
+	<body>
+		<img src="assets/player.jpg" style="display:none" id="teste"/>
+    <div id="container" class="container-fluid">
+			<div class="row-fluid">
+				<div class="span3">
+					<div class="tabbable">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#templates" data-toggle="tab">Templates</a>
+							</li>
+							<li><a href="#inspector" data-toggle="tab">Inspector</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane active" id="templates">
+								<p>There will be templates here.</p>
+							</div>
+							<div class="tab-pane" id="inspector">
+								<p>There will be an inspector here.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span9">
+					<div id="ALE-canvas"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- JAVASCRIPT -->
+		<script src="lib/jquery-1.8.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/kinetic-v4.0.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/ALE.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/Sprite.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/app.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body>
-	<img src="assets/player.jpg" style="display:none" id="teste"/>
-    <div id="container"></div>
 	</body>
 </html>

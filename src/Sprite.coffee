@@ -1,4 +1,4 @@
-YUI().use "node", "event", (Y)->
+jQuery ->
 	class ALE.Sprite extends Node
 
 		###
@@ -13,22 +13,20 @@ YUI().use "node", "event", (Y)->
 		#		* height
 		###
 		constructor: (src, options)->
-			options = Y.merge {
-				layer: 1
+			options = jQuery.extend {
+				layer: 0
 			}, options
 			this.kLayer = options.layer
 			this.animations = {}
 			this.currentAnimation = ""
 			if typeof src == "string"
-				this.image = Y.one(new Image())
-				this.image.set "src", src
+				this.image = new Image()
+				this.image.src = src
 			else if src instanceof HTMLImageElement
-				this.image = T.one(src)
-			else
 				this.image = src
 			this.load =>
-				this.totalWidth = this.image.get "width";
-				this.totalHeight = this.image.get "height";
+				this.totalWidth = this.image.width;
+				this.totalHeight = this.image.height;
 				if options["rows"]? and options["columns"]?
 					this.width = this.totalWidth / options["columns"]
 					this.height = this.totalHeight / options["rows"]
@@ -38,16 +36,16 @@ YUI().use "node", "event", (Y)->
 				this.kSprite = new Kinetic.Sprite {
 					x: options.x
 					y: options.y
-					image: this.image.getDOMNode()
+					image: this.image
 					animations: {}
 				}
 
 
 		load: (func)=>
-			if this.image.get "complete"
+			if this.image.complete
 				func()
 			else
-				this.image.load(func)
+				jQuery(this.image).load(func)
 				
 		getLayer: ->
 			this.kLayer

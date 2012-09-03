@@ -1,8 +1,8 @@
-YUI().use (Y)->
+jQuery ->
 	class ALE
 		constructor: (width, height)->
 			this.stage = new Kinetic.Stage {
-				container: "container"
+				container: "ALE-canvas"
 				width: width
 				height: height
 			}
@@ -16,7 +16,7 @@ YUI().use (Y)->
 				this.stage.add(this.layers[layer])
 		
 		add: (object, options)=>
-			options = Y.merge { draggable: true }, options
+			options = jQuery.extend({}, { draggable: true }, options)
 			object.getKNode().setDraggable(options["draggable"])
 			this.addToLayer(object.getLayer(), object.getKNode())
 		
