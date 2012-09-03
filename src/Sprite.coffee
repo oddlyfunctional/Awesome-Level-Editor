@@ -1,11 +1,11 @@
 jQuery ->
-	class ALE.Sprite
+	class ALE.Sprite extends Node
 
 		###
 		#	Mandatory arguments:
 		#		* x
 		#		* y
-		#	Choose one pair of arguments:
+		#	Optional pair of arguments:
 		#		* rows
 		#		* columns
 		#	Or
@@ -16,7 +16,7 @@ jQuery ->
 			options = jQuery.extend {
 				layer: 0
 			}, options
-			this.layer = options.layer
+			this.kLayer = options.layer
 			this.animations = {}
 			this.currentAnimation = ""
 			this.image = jQuery(new Image())
@@ -26,42 +26,52 @@ jQuery ->
 				if options["rows"]? and options["columns"]?
 					this.width = this.totalWidth / options["columns"]
 					this.height = this.totalHeight / options["rows"]
-				else
+				else if options["width"]? and options["height"]?
 					this.width = options["width"]
 					this.height = options["height"]
-				this.sprite = new Kinetic.Sprite {
+				this.kSprite = new Kinetic.Sprite {
 					x: options.x
 					y: options.y
 					image: this.image[0]
 					animations: {}
 				}
-				ALE::instance().addToLayer(this.layer, this.sprite)
 
 			this.image.attr "src", src
 
-		runAfterLoad: (func)=>
+		load: (func)=>
 			if this.image[0].complete
 				func()
 			else
 				this.image.load(func)
+				
+		getLayer: ->
+			this.kLayer
+		
+		getKNode: =>
+			this.load =>
+				this.kSprite
 
 		add: (key, frames, frameRate)=>
-			this.runAfterLoad =>
+			this.load =>
 				frameRate ?= 6
-				array = []
-				for frame in frames
-					array.push {
-						x: frame * this.width % this.totalWidth
-						y: Math.floor(frame * this.width / this.totalWidth) * this.height
-						width: this.width
-						height: this.height
-					}
+				if this.width? and this.height?
+					array = []
+					for frame in frames
+						array.push {
+							x: frame * this.width % this.totalWidth
+							y: Math.floor(frame * this.width / this.totalWidth) * this.height
+							width: this.width
+							height: this.height
+						}
+				else
+					array = frames
 				this.animations[key] = { frames: array, frameRate: frameRate }
-				this.sprite.getAnimations()[key] = array
+				this.kSprite.getAnimations()[key] = array
 
 		play: (key)=>
-			this.runAfterLoad =>
-				this.sprite.stop()
-				this.sprite.frameRate = this.animations[key].frameRate
-				this.sprite.setAnimation(key)
-				this.sprite.start()
+			this.load =>
+				this.kSprite.stop()
+				this.kSprite.frameRate = this.animations[key].frameRate
+				this.kSprite.setAnimation(key)
+				this.kSprite.start()
+

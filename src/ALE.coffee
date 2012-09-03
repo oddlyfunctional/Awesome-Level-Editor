@@ -9,12 +9,21 @@ jQuery ->
 			this.layers = []
 
 			ALE::__instance = this
-			
-		addToLayer: (layer, object)=>
+
+		checkLayer: (layer)=>
 			unless this.layers[layer]?
 				this.layers[layer] = new Kinetic.Layer()
 				this.stage.add(this.layers[layer])
-			this.layers[layer].add(object)
+		
+		add: (object, options)=>
+			unless options?["notDraggable"]?
+				object.getKNode().setDraggable(true)
+			this.addToLayer(object.getLayer(), object.getKNode())
+		
+		addToLayer: (layer, object)=>
+		    this.checkLayer(layer)
+		    this.layers[layer].add(object)
+		    
 	window.ALE = ALE
 
 	ALE::instance = ->
