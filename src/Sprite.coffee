@@ -19,8 +19,14 @@ jQuery ->
 			this.kLayer = options.layer
 			this.animations = {}
 			this.currentAnimation = ""
-			this.image = jQuery(new Image())
-			this.image.load =>
+			if typeof src == "string"
+				this.image = jQuery(new Image())
+				this.image.attr "src", src
+			else if src instanceof HTMLImageElement
+				this.image = jQuery(src)
+			else
+				this.image = src
+			this.load =>
 				this.totalWidth = this.image[0].width;
 				this.totalHeight = this.image[0].height;
 				if options["rows"]? and options["columns"]?
@@ -36,7 +42,6 @@ jQuery ->
 					animations: {}
 				}
 
-			this.image.attr "src", src
 
 		load: (func)=>
 			if this.image[0].complete
