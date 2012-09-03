@@ -1,4 +1,4 @@
-jQuery ->
+YUI().use (Y)->
 	class ALE
 		constructor: (width, height)->
 			this.stage = new Kinetic.Stage {
@@ -16,7 +16,7 @@ jQuery ->
 				this.stage.add(this.layers[layer])
 		
 		add: (object, options)=>
-			options = jQuery.extend({}, { draggable: true }, options)
+			options = Y.merge { draggable: true }, options
 			object.getKNode().setDraggable(options["draggable"])
 			this.addToLayer(object.getLayer(), object.getKNode())
 		
