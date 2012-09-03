@@ -16,8 +16,8 @@ jQuery ->
 				this.stage.add(this.layers[layer])
 		
 		add: (object, options)=>
-			unless options?["notDraggable"]?
-				object.getKNode().setDraggable(true)
+			options = jQuery.extend({}, { draggable: true }, options)
+			object.getKNode().setDraggable(options["draggable"])
 			this.addToLayer(object.getLayer(), object.getKNode())
 		
 		addToLayer: (layer, object)=>
