@@ -1,12 +1,26 @@
 jQuery ->
 	class ALE
 		constructor: (width, height)->
+			ALE::__instance = this
 			this.stage = new Kinetic.Stage {
 				container: "ALE-canvas"
 				width: width
 				height: height
 			}
 			this.layers = []
+			this.checkLayer(0)
+
+			jQuery(this.stage.getDOM()).droppable {
+				drop: (evt, ui)->
+					offset = $(this).offset()
+					x = ui.offset.left - offset.left
+					y = ui.offset.top - offset.top
+					template = ui.draggable.data("template")
+					clone = template.clone()
+					clone.getKNode().setPosition(x, y)
+					ALE::instance().add(clone)
+					clone.play(template.getDefaultAnimation())
+			}
 
 			ALE::__instance = this
 

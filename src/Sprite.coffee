@@ -1,5 +1,5 @@
 jQuery ->
-	class ALE.Sprite extends Node
+	class ALE.Sprite extends ALE.Node
 
 		###
 		#	Mandatory arguments:
@@ -54,6 +54,9 @@ jQuery ->
 			this.load =>
 				this.kSprite
 
+		getName: ->
+			"Sprite" # TODO: remover isto
+
 		add: (key, frames, frameRate)=>
 			this.load =>
 				frameRate ?= 6
@@ -77,4 +80,12 @@ jQuery ->
 				this.kSprite.frameRate = this.animations[key].frameRate
 				this.kSprite.setAnimation(key)
 				this.kSprite.start()
+
+		clone: ()=>
+			_clone = new this.constructor(this.image)
+			_clone.kLayer = this.kLayer
+			animations = this.animations
+			for key, val of this.animations
+				_clone.add(key, val.frames, val.frameRate)
+			_clone
 
